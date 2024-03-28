@@ -44,28 +44,25 @@ app.get('/search', async (req, res) => {
 
     const requests = [
         axios.get(`https://${process.env.HOST}/app/getnames.jsp?cli=${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&lang=en&is_callerid=true&is_ic=true&cv=vc_496_vn_4.0.496_a&requestApi=okHttp&source=MenifaFragment`, { headers: headers })
-        .catch((error) => { return { data: [{ name: "غير موجود" }] };}),
+        .catch((error) => ({ data: [{ name: "غير موجود" }] })),
         axios.get(`https://${process.env.HOST2}/contactsearch?cpn=%2B${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&myp=${process.env.MYP}&tk=${process.env.TK}&cvc=2100`)
-        .catch((error) => { 
-            console.log(error.response.status)
-            /*
-            if (error.response.status == 513) {
-                axios.get(`https://${process.env.HOST2}/contactsearch?cpn=%2B${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&myp=${process.env.MYP}&ibs=1&cid=1&tk=${process.env.TK}&cvc=2100`)
-                .catch((error) => { 
-                    if (error.response.status == 513) {
+        .catch((error) => {
+            console.log(error.response.status);
+            if (error.response.status === 513) {
+                return axios.get(`https://${process.env.HOST2}/contactsearch?cpn=%2B${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&myp=${process.env.MYP}&ibs=1&cid=1&tk=${process.env.TK}&cvc=2100`)
+                .catch((error) => {
+                    if (error.response.status === 513) {
                         console.log("rate Limited Poz 2");
                         return { data: { name: "غير موجود" } };
                     } else {
                         return { data: { name: "غير موجود" } };
                     }
-                })
+                });
             } else {
                 return { data: { name: "غير موجود" } };
             }
-            */
-            return { data: { name: "غير موجود" } };
         })
-      ];
+    ];
 
     const responses = await Promise.all(requests);
 
