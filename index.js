@@ -47,6 +47,8 @@ app.get('/search', async (req, res) => {
         .catch((error) => { return { data: [{ name: "غير موجود" }] };}),
         axios.get(`https://${process.env.HOST2}/contactsearch?cpn=%2B${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&myp=${process.env.MYP}&tk=${process.env.TK}&cvc=2100`)
         .catch((error) => { 
+            console.log(error)
+            /*
             if (error.response.status == 513) {
                 axios.get(`https://${process.env.HOST2}/contactsearch?cpn=%2B${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&myp=${process.env.MYP}&ibs=1&cid=1&tk=${process.env.TK}&cvc=2100`)
                 .catch((error) => { 
@@ -60,6 +62,8 @@ app.get('/search', async (req, res) => {
             } else {
                 return { data: { name: "غير موجود" } };
             }
+            */
+            return { data: { name: "غير موجود" } };
         })
       ];
 
