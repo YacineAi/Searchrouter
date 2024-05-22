@@ -43,7 +43,7 @@ app.get('/search', async (req, res) => {
     const result = {};
 
     const requests = [
-        axios.get(`https://${process.env.HOST}/app/getnames.jsp?cli=${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&lang=en&is_callerid=true&is_ic=true&cv=vc_496_vn_4.0.496_a&requestApi=okHttp&source=MenifaFragment`, { headers: headers })
+        axios.get(`https://${process.env.HOST}/app/getnames.jsp?cli=${mobileNumber.countryCallingCode || 213}${mobileNumber.nationalNumber}&lang=en&is_callerid=true&is_ic=true&cv=vc_496_vn_4.0.496_a&requestApi=okHttp&source=MenifaFragment`, { headers: headers })
         .catch((error) => ({ data: [{ name: "غير موجود" }] })),
         axios.get(`https://${process.env.HOST2}/contactsearch?cpn=%2B${mobileNumber.countryCallingCode}${mobileNumber.nationalNumber}&myp=${process.env.MYP}&tk=${process.env.TK}&cvc=2100`)
         .catch((error) => {
